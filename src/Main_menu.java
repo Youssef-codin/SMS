@@ -5,35 +5,6 @@ public class Main_menu {
     private final static Scanner scanner = new Scanner(System.in);
     final static int waitTime_in_ms = 1500;
 
-    public static void main(String[] args) throws InterruptedException {
-
-//        Student studentTest = new Student("Youssef Hany Galal", 18, 3.4, );
-
-        boolean is_running = true;
-
-        while(is_running){
-            print_mainMenu();
-            int choice = inputValidation.safeInt("Choose an option: ");
-
-            switch (choice){
-                case 1 -> AddStudent();
-                case 2 -> RemoveStudent();
-                case 3 -> ViewAllStudents();
-                case 4 -> SearchForStudent();
-                case 5 -> ModifySubjects();
-                case 0 -> is_running = false;
-                default -> {
-                    System.out.println("Please enter a valid choice.");
-                    Thread.sleep(waitTime_in_ms);
-                }
-            }
-        }
-        //Clean up
-        scanner.close();
-        inputValidation.scanner.close();
-    }
-
-
     //PRINT METHODS
     //used in main method.
     private static void print_mainMenu(){
@@ -63,6 +34,36 @@ public class Main_menu {
         System.out.println("0) Quit");
         System.out.println("---------");
     }
+
+    public static void main(String[] args) throws InterruptedException {
+
+//        Student studentTest = new Student("Youssef Hany Galal", 18, 3.4, );
+
+        boolean is_running = true;
+
+        while(is_running){
+            print_mainMenu();
+            int choice = inputValidation.safeInt("Choose an option: ");
+
+            switch (choice){
+                case 1 -> AddStudent();
+                case 2 -> RemoveStudent();
+                case 3 -> ViewAllStudents();
+                case 4 -> SearchForStudent();
+                case 5 -> ModifySubjects();
+                case 0 -> is_running = false;
+                default -> {
+                    System.out.println("Please enter a valid choice.");
+                    Thread.sleep(waitTime_in_ms);
+                }
+            }
+        }
+        //Clean up
+        scanner.close();
+        inputValidation.scanner.close();
+    }
+
+
 
 
     //METHOD USED TO ADD STUDENT TO SCHOOL
