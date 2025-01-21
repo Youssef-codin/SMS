@@ -145,74 +145,9 @@ public class Main_menu {
             String user = scanner.nextLine().toLowerCase();
             switch (user)
             {
-                case "name" -> {
-                    while(true) {
-                        System.out.print("Please enter the new name (q to quit): ");
-                        String newName = scanner.nextLine();
-                        if (newName.equals("q")) {
-                            System.out.println("Going back!");
-                            Thread.sleep(2000);
-                            break;
-                        } else if (newName.isEmpty()) {
-                            System.out.println("Please enter a string.");
-                            Thread.sleep(2000);
-                            continue;
-                        }
-                        student.setName(newName);
-                        System.out.println("Successfully changed name to: " + newName);
-                        System.out.print("Press enter to continue...");
-                        scanner.nextLine();
-                        break;
-                    }
-                }
-                case "age" -> {
-                    while(true)
-                    {
-                        int newAge = 0;
-                        try {
-                            System.out.print("Please enter the new (0 to quit): ");
-                            newAge = scanner.nextInt();
-                        } catch (InputMismatchException e) {
-                            System.out.println("Please enter a number");
-                            Thread.sleep(2000);
-                            continue;
-                        } finally {
-                            scanner.nextLine(); //clear buffer
-                        }
-                        if (newAge == 0) {
-                            break;
-                        }
-                        student.setAge(newAge);
-                        System.out.println("Successfully changed age to: " + newAge);
-                        System.out.print("Press enter to continue...");
-                        scanner.nextLine();
-                        break;
-                    }
-                }
-                case "gpa" -> {
-                    System.out.print("Please enter the new GPA (0 to quit): ");
-                    while (true) {
-                        double newGPA = 0;
-                        try {
-                            newGPA = scanner.nextDouble();
-                        } catch (InputMismatchException e) {
-                            System.out.println("Please enter a number.");
-                            Thread.sleep(2000);
-                            continue;
-                        } finally {
-                            scanner.nextLine(); //clear buffer
-                        }
-                        if(newGPA == 0){
-                            System.out.println("Going back!");
-                            break;
-                        }
-                        student.setGPA(newGPA);
-                        System.out.println("Successfully changed GPA to: " + newGPA);
-                        System.out.print("Press enter to continue...");
-                        scanner.nextLine();
-                        break;
-                    }
-                }
+                case "name" -> modifyName(student);
+                case "age" -> modifyAge(student);
+                case "gpa" -> modifyGPA(student);
                 case "q" -> {
                     System.out.println("Going back!");
                     Thread.sleep(2000);
@@ -224,6 +159,77 @@ public class Main_menu {
                     scanner.nextLine();
                 }
             }
+        }
+    }
+
+    private static void modifyGPA(Student student) throws InterruptedException {
+        System.out.print("Please enter the new GPA (0 to quit): ");
+        while (true) {
+            double newGPA = 0;
+            try {
+                newGPA = scanner.nextDouble();
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter a number.");
+                Thread.sleep(2000);
+                continue;
+            } finally {
+                scanner.nextLine(); //clear buffer
+            }
+            if(newGPA == 0){
+                System.out.println("Going back!");
+                break;
+            }
+            student.setGPA(newGPA);
+            System.out.println("Successfully changed GPA to: " + newGPA);
+            System.out.print("Press enter to continue...");
+            scanner.nextLine();
+            break;
+        }
+    }
+
+    private static void modifyAge(Student student) throws InterruptedException {
+        while(true)
+        {
+            int newAge = 0;
+            try {
+                System.out.print("Please enter the new (0 to quit): ");
+                newAge = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter a number");
+                Thread.sleep(2000);
+                continue;
+            } finally {
+                scanner.nextLine(); //clear buffer
+            }
+            if (newAge == 0) {
+                break;
+            }
+            student.setAge(newAge);
+            System.out.println("Successfully changed age to: " + newAge);
+            System.out.print("Press enter to continue...");
+            scanner.nextLine();
+            break;
+        }
+    }
+
+    private static void modifyName(Student student) throws InterruptedException {
+        while(true) {
+            System.out.print("Please enter the new name (q to quit): ");
+            String newName = scanner.nextLine();
+            if (newName.equals("q")) {
+                System.out.println("Going back!");
+                Thread.sleep(2000);
+                break;
+            } else if (newName.isEmpty()) {
+                System.out.println("Please enter a string.");
+                Thread.sleep(2000);
+                continue;
+            }
+            student.setName(newName);
+            System.out.println("Successfully changed name to: " + newName);
+            System.out.print("Press enter to continue...");
+            scanner.nextLine();
+            break;
         }
     }
 }
