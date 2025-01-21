@@ -1,44 +1,42 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main_menu {
 
-    static Scanner scanner = new Scanner(System.in);
-    static ArrayList<Subject> PlaceHolderSubjects = new ArrayList<>(Arrays.asList(new Subject("English", 40), new Subject("Math", 60)));
+    private final static Scanner scanner = new Scanner(System.in);
+    final static int waitTime_in_ms = 1500;
 
     public static void main(String[] args) throws InterruptedException {
 
-        Student studentTest = new Student("Youssef Hany Galal", 18, 3.4, PlaceHolderSubjects);
+//        Student studentTest = new Student("Youssef Hany Galal", 18, 3.4, );
 
         boolean is_running = true;
 
         while(is_running){
-            printMenu();
-            System.out.print("Choose an option: ");
-            int choice = 0;
-            try {
-                choice = scanner.nextInt();
-                scanner.nextLine(); //clear buffer
-            }
-            catch (InputMismatchException e) {
-                scanner.nextLine();
-                continue;
-            }
+            print_mainMenu();
+            int choice = inputValidation.safeInt("Choose an option: ");
 
             switch (choice){
                 case 1 -> AddStudent();
                 case 2 -> RemoveStudent();
                 case 3 -> ViewAllStudents();
                 case 4 -> SearchForStudent();
-                default -> is_running = false;
+                case 5 -> ModifySubjects();
+                case 0 -> is_running = false;
+                default -> {
+                    System.out.println("Please enter a valid choice.");
+                    Thread.sleep(waitTime_in_ms);
+                }
             }
         }
-
+        //Clean up
         scanner.close();
+        inputValidation.scanner.close();
     }
-    public static void printMenu(){
+
+
+    //PRINT METHODS
+    //used in main method.
+    private static void print_mainMenu(){
         System.out.println("---------------");
         System.out.println("Student Manager");
         System.out.println("---------------");
@@ -46,47 +44,66 @@ public class Main_menu {
         System.out.println("2) Remove a student.");
         System.out.println("3) View all students.");
         System.out.println("4) Search for a student.");
-        System.out.println("5) Exit the program");
+        System.out.println("5) Edit available subjects.");
+        System.out.println("0) Exit the program");
         System.out.println("---------------");
     }
 
-    public static void AddStudent(){
+    //used in ModifySubjects method.
+    private static void print_subjectsMenu() {
+        System.out.println("---------");
+        System.out.println("Subjects");
+        if (!Subject.getSubjects().isEmpty())
+            for (int i = 1; i <= Subject.getSubjects().size(); i++)
+                System.out.println(i + ") " + Subject.getSubjects().get(i-1));
+        System.out.println("---------");
+        System.out.println("1) Add Subject.");
+        System.out.println("2) Remove Subject.");
+        System.out.println("3) Edit Subject.");
+        System.out.println("0) Quit");
+        System.out.println("---------");
+    }
+
+
+    //METHOD USED TO ADD STUDENT TO SCHOOL
+    //used in main method.
+    private static void AddStudent() throws InterruptedException {
         System.out.println("-------------");
         System.out.println("Add a Student");
         System.out.println("-------------");
 
-        System.out.print("Student's name: ");
-        String name = scanner.nextLine();
+        String user = inputValidation.safeString("Student's name: ");
 
-        System.out.print("Student's Age: ");
-        int age = scanner.nextInt();
+        int age = inputValidation.safeInt("Student's Age: ");
 
-        System.out.print("Student's GPA: ");
-        double GPA = scanner.nextDouble();
-        scanner.nextLine(); //clear buffer
+        double GPA = inputValidation.safeDouble("Student's GPA: ");
 
-        Student student = new Student(name, age, GPA, PlaceHolderSubjects);
+//        Student student = new Student(name, age, GPA, );
         System.out.println("Student added Successfully!");
         System.out.print("Press enter to continue...");
         scanner.nextLine();
     }
 
-    public static void RemoveStudent(){
+    //METHOD TO REMOVE STUDENT FROM SCHOOL
+    //used in main method.
+    private static void RemoveStudent() throws InterruptedException {
         System.out.println("----------------");
         System.out.println("Remove a Student");
         System.out.println("----------------");
 
-        System.out.print("Enter ID of student: ");
-        int ID = scanner.nextInt();
-        scanner.nextLine(); //clear buffer
+        int ID = inputValidation.safeInt("Enter ID of student: ");
         School.removeStudent(ID);
+
+        //need to make it if there was no student in the first place.
 
         System.out.println("Student removed Successfully");
         System.out.print("Press enter to continue...");
         scanner.nextLine();
     }
 
-    public static void ViewAllStudents(){
+    //METHOD TO SEE ALL STUDENTS IN THE SCHOOL
+    //used in main method.
+    private static void ViewAllStudents(){
         System.out.println("-----------------");
         System.out.println("View All Students");
         System.out.println("-----------------");
@@ -97,40 +114,30 @@ public class Main_menu {
         scanner.nextLine();
     }
 
-    public static void SearchForStudent() throws InterruptedException {
+    //METHOD TO SEARCH FOR STUDENT AND MODIFY IF USER LIKES TO
+    //used in main method.
+    private static void SearchForStudent() throws InterruptedException {
         System.out.println("-----------------");
         System.out.println("Search for Student");
         System.out.println("-----------------");
-        System.out.print("Enter the ID of student: ");
-        int ID = 0;
-        boolean id_found = true;
-        try {
-            ID = scanner.nextInt();
-        }
-        catch (InputMismatchException e) {
-            id_found = false;
-        }
-        finally {
-            scanner.nextLine(); //clear buffer
-        }
+
+        int ID = inputValidation.safeInt("Enter the ID of student: ");
 
         Student student = School.getStudentObj(ID);
 
-        if (id_found && student != null)
-        {
-            studentModify(student);
-        }
-        else if(student == null){
+        if(student == null){
             System.out.println("Student was not found.");
-            Thread.sleep(2000);
+            Thread.sleep(waitTime_in_ms);
         }
         else {
-            System.out.println("Please enter a valid number.");
-            Thread.sleep(2000);
+            ModifyStudent(student);
         }
     }
 
-    static void studentModify(Student student) throws InterruptedException {
+
+    //METHOD TO MODIFY STUDENT'S NAME, AGE, GPA AND SUBJECTS/GRADES
+    //used in SearchForStudent method.
+    private static void ModifyStudent(Student student) throws InterruptedException {
 
         boolean run_studentmodify = true;
         while (run_studentmodify)
@@ -141,8 +148,7 @@ public class Main_menu {
             System.out.println("Subjects: ");
             System.out.println();
 
-            System.out.print("What would you like to change (q to quit): ");
-            String user = scanner.nextLine().toLowerCase();
+            String user = inputValidation.safeString("What would you like to change (q to quit): ").toLowerCase();
             switch (user)
             {
                 case "name" -> modifyName(student);
@@ -150,7 +156,7 @@ public class Main_menu {
                 case "gpa" -> modifyGPA(student);
                 case "q" -> {
                     System.out.println("Going back!");
-                    Thread.sleep(2000);
+                    Thread.sleep(waitTime_in_ms);
                     run_studentmodify = false;
                 }
                 default -> {
@@ -162,74 +168,109 @@ public class Main_menu {
         }
     }
 
-    private static void modifyGPA(Student student) throws InterruptedException {
-        System.out.print("Please enter the new GPA (0 to quit): ");
-        while (true) {
-            double newGPA = 0;
-            try {
-                newGPA = scanner.nextDouble();
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter a number.");
-                Thread.sleep(2000);
-                continue;
-            } finally {
-                scanner.nextLine(); //clear buffer
-            }
-            if(newGPA == 0){
-                System.out.println("Going back!");
-                break;
-            }
-            student.setGPA(newGPA);
-            System.out.println("Successfully changed GPA to: " + newGPA);
-            System.out.print("Press enter to continue...");
-            scanner.nextLine();
-            break;
+    //STUDENT MODIFY METHODS TO CHANGE NAME, AGE, GPA OR SUBJECTS AND GRADES
+    //used in studentModify method.
+    private static void modifyName(Student student) throws InterruptedException {
+
+        String newName = inputValidation.safeString("Please enter the new name (q to quit): ");
+        if (newName.equals("q")) {
+            System.out.println("Going back!");
+            Thread.sleep(waitTime_in_ms);
         }
+        student.setName(newName);
+        System.out.println("Successfully changed name to: " + newName);
+        System.out.print("Press enter to continue...");
+        scanner.nextLine();
     }
 
     private static void modifyAge(Student student) throws InterruptedException {
-        while(true)
-        {
-            int newAge = 0;
-            try {
-                System.out.print("Please enter the new (0 to quit): ");
-                newAge = scanner.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter a number");
-                Thread.sleep(2000);
-                continue;
-            } finally {
-                scanner.nextLine(); //clear buffer
-            }
-            if (newAge == 0) {
-                break;
-            }
+        int newAge = inputValidation.safeInt("Please enter the new (0 to quit): ");
+
+        if (newAge == 0) {
+            System.out.println("Going back!");
+            Thread.sleep(waitTime_in_ms);
+        }
+        else {
             student.setAge(newAge);
             System.out.println("Successfully changed age to: " + newAge);
             System.out.print("Press enter to continue...");
             scanner.nextLine();
-            break;
         }
     }
 
-    private static void modifyName(Student student) throws InterruptedException {
-        while(true) {
-            System.out.print("Please enter the new name (q to quit): ");
-            String newName = scanner.nextLine();
-            if (newName.equals("q")) {
-                System.out.println("Going back!");
-                Thread.sleep(2000);
-                break;
-            } else if (newName.isEmpty()) {
-                System.out.println("Please enter a string.");
-                Thread.sleep(2000);
-                continue;
-            }
-            student.setName(newName);
-            System.out.println("Successfully changed name to: " + newName);
+    private static void modifyGPA(Student student) throws InterruptedException {
+
+        double newGPA = inputValidation.safeDouble("Please enter the new GPA (0 to quit): ");
+        if(newGPA == 0){
+            System.out.println("Going back!");
+            Thread.sleep(waitTime_in_ms);
+        }
+        else {
+            student.setGPA(newGPA);
+            System.out.println("Successfully changed GPA to: " + newGPA);
             System.out.print("Press enter to continue...");
             scanner.nextLine();
-            break;
         }
     }
+
+
+    //MAIN METHOD TO MODIFY THE AVAILABLE SUBJECTS
+    //used in main method.
+    private static void ModifySubjects() throws InterruptedException {
+
+        boolean is_running = true;
+        while (is_running) {
+            print_subjectsMenu();
+            int choice = inputValidation.safeInt("Choose an option (1/2/3/0): ");
+
+            switch (choice) {
+                case 1 -> addSubject();
+                case 2 -> RemoveSubject();
+                case 3 -> EditSubjects();
+                case 0 -> {
+                    System.out.println("Going back!");
+                    Thread.sleep(waitTime_in_ms);
+                    is_running = false;
+                }
+                default -> {
+                    System.out.println("Please enter a valid choice.");
+                    Thread.sleep(waitTime_in_ms);
+                }
+            }
+        }
+    }
+
+    //SUBJECT METHODS TO ADD REMOVE OR EDIT
+    //used in ModifySubjects method.
+    private static void addSubject() throws InterruptedException {
+
+        String subjectName = inputValidation.safeString("Enter the name of the Subject (q to quit): ");
+
+        if(subjectName.equals("q")){
+            System.out.println("Going back!");
+            Thread.sleep(waitTime_in_ms);
+        }
+        else{
+            int subjectMarks = inputValidation.safeInt("Enter the marks of the Subject (0 to quit): ");
+
+            if (subjectMarks != 0) {
+                Subject subject = new Subject(subjectName, subjectMarks);
+                System.out.println("Successfully added " + subjectName + " with " + subjectMarks + " marks.");
+                System.out.print("Press enter to continue...");
+                scanner.nextLine();
+            } else {
+                System.out.println("Going back!");
+                Thread.sleep(waitTime_in_ms);
+            }
+        }
+    }
+
+    private static void RemoveSubject(){
+
+    }
+
+    private static void EditSubjects(){
+
+    }
 }
+

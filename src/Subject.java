@@ -18,7 +18,9 @@ public class Subject {
     }
 
     //Getter methods
-    public void getSubjects(){
-        System.out.println(availableSubjects);
+    public static ArrayList<Subject> getSubjects(){
+        return availableSubjects;
     }
+
+    //setter method
 }
