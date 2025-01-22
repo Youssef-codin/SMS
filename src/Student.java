@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Student extends School{
 
@@ -7,18 +8,28 @@ public class Student extends School{
     private String name;
     private int age;
     private double GPA;
-    private ArrayList<Subject> subjects;
+    private HashMap<Subject, Integer> subjects = new HashMap<>();
 
-    //Constructor Class
+    //Constructor Classes
     Student(String name, int age, double GPA,
             ArrayList<Subject> subjects){
         this.name = name;
         this.age = age;
         this.GPA = GPA;
-        this.subjects = subjects;
+        for(Subject subject : subjects) {
+            this.subjects.put(subject, 0);
+        }
         numOfStudents++;
         addStudent(this);
     }
+    Student(String name, int age, double GPA){
+        this.name = name;
+        this.age = age;
+        this.GPA = GPA;
+        numOfStudents++;
+        addStudent(this);
+    }
+
 
     @Override
     public String toString(){
@@ -39,8 +50,8 @@ public class Student extends School{
         return this.GPA;
     }
 
-    void getSubjects(){
-        System.out.println(this.subjects);
+    HashMap<Subject, Integer> getSubjectsAndGrades(){
+        return this.subjects;
     }
 
     static int getNumOfStudents(){
@@ -61,10 +72,10 @@ public class Student extends School{
     }
 
     void addSubject(Subject subject){
-        subjects.add(subject);
+        this.subjects.put(subject, 0);
     }
 
     void removeSubject(Subject subject){
-        subjects.remove(subject);
+        this.subjects.remove(subject);
     }
 }

@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class School {
 
@@ -11,8 +12,12 @@ public abstract class School {
 
 
     //getter methods
-    static void printList(){
-        System.out.println(students);
+    static void getList(){
+        for(Map.Entry<Integer, Student> entry : students.entrySet()){
+            Integer ID = entry.getKey();
+            Student student = entry.getValue();
+            System.out.println(ID + " | " + student);
+        }
     }
     static Student getStudentObj(int ID){
         return students.get(ID);

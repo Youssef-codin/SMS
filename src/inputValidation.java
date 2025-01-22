@@ -42,6 +42,29 @@ public abstract class inputValidation {
         }
     }
 
+    public static int safeAge(String prompt) throws InterruptedException {
+        while(true){
+            try {
+                System.out.print(prompt);
+                int num = scanner.nextInt();
+                if(num > 0){
+                    return num;
+                }
+                else{
+                    System.out.println("Age must be positive and not 0.");
+                    Thread.sleep(Main_menu.waitTime_in_ms);
+                }
+            }
+            catch (InputMismatchException e) {
+                System.out.println("Please enter a number.");
+                Thread.sleep(Main_menu.waitTime_in_ms);
+            }
+            finally {
+                scanner.nextLine(); //clear buffer
+            }
+        }
+    }
+
     public static double safeDouble(String prompt) throws InterruptedException {
         while(true){
             try {
