@@ -4,18 +4,17 @@ import java.util.Map;
 import java.util.Scanner;
 
 /*To do
-   At modify students I need to notify the user when subject is already there or not
    GPA calculation
  */
 
 public class Main_menu {
 
     private final static Scanner scanner = new Scanner(System.in);
-    final static int waitTime_in_ms = 800;
+    public final static int waitTime_in_ms = 800;
 
     public static void main(String[] args) throws InterruptedException {
 
-        //Used for testing till i make save methods.
+        //Used for testing till I make save methods.
         Subject subjectTest1 = new Subject("English 1", 40);
         Subject subjectTest2 = new Subject("Math 1", 60);
         new Subject("Java OOP", 50);
@@ -240,12 +239,34 @@ public class Main_menu {
     //used in modifyStudent_Subjects
     private static void addStudentSubject(Student student) throws InterruptedException {
         print.titleAndSubjects();
-        int subjectChoice = inputValidation.safeInt("Please pick the subject you'd like to add: ");
-        if (subjectChoice != 0){
-            student.addSubject(Subject.get_subject(subjectChoice - 1));
-            System.out.println("Subject added.");
+        int subjectChoice = inputValidation.safeInt("Please pick the subject you'd like to add (0 to quit): ");
+
+        if(subjectChoice > Subject.getSubjects().size()){
+            System.out.println("Pick a valid option.");
             Thread.sleep(waitTime_in_ms);
         }
+
+        else if(subjectChoice != 0){
+            ArrayList<Subject> tempList = new ArrayList<>();
+
+            for (Map.Entry<Subject, Integer> entry : student.getSubjectsAndGrades().entrySet()) {
+                tempList.add(entry.getKey());
+            }
+
+            Subject subject = Subject.get_subject(subjectChoice - 1);
+
+            if (tempList.contains(subject)) {
+                System.out.println("Student already enrolled in " + subject);
+                Thread.sleep(waitTime_in_ms);
+            }
+            else{
+                student.addSubject(subject);
+
+                System.out.println("Subject " + subject + " has been added.");
+                Thread.sleep(waitTime_in_ms);
+            }
+        }
+
         else {
             System.out.println("Going back!");
             Thread.sleep(waitTime_in_ms);
@@ -253,11 +274,18 @@ public class Main_menu {
     }
 
     private static void removeStudentSubject(Student student) throws InterruptedException {
-        print.titleAndSubjects();
-        int subjectChoice = inputValidation.safeInt("Please pick the subject you'd like to remove: ");
-        if (subjectChoice != 0) {
-            student.removeSubject(Subject.get_subject(subjectChoice - 1));
-            System.out.println("Subject removed.");
+        ArrayList<Subject> tempList = getStudentSubjectsTemplist(student);
+
+        int subjectChoice = inputValidation.safeInt("Please pick the subject you'd like to remove (0 to go back): ");
+        if(subjectChoice > tempList.size()){
+            System.out.println("Pick a valid option.");
+            Thread.sleep(waitTime_in_ms);
+        }
+        else if (subjectChoice != 0) {
+            Subject subject = tempList.get(subjectChoice - 1);
+            student.removeSubject(subject);
+
+            System.out.println("Subject " + subject + " has been removed.");
             Thread.sleep(waitTime_in_ms);
         }
         else {
@@ -265,19 +293,9 @@ public class Main_menu {
             Thread.sleep(waitTime_in_ms);
         }
     }
+
     private static void changeStudentGrade(Student student) throws InterruptedException {
-        int i = 1;
-        ArrayList<Subject> tempList = new ArrayList<>();
-
-        for(Map.Entry<Subject, Integer> entry : student.getSubjectsAndGrades().entrySet()){
-            tempList.add(entry.getKey());
-
-            Subject subject = entry.getKey();
-            Integer grade = entry.getValue();
-            System.out.println(i + ") " + subject + " : " + grade + "/" + subject.getMarks());
-            i++;
-        }
-        System.out.println("-------------------");
+        ArrayList<Subject> tempList = getStudentSubjectsTemplist(student);
 
         int subjectChoice = inputValidation.safeInt("Please pick the subject you'd like to change grade of: ");
         if(subjectChoice > tempList.size()){
@@ -295,6 +313,23 @@ public class Main_menu {
             System.out.println("Going back!");
             Thread.sleep(waitTime_in_ms);
         }
+    }
+
+    //Helper method for student Subjects
+    private static ArrayList<Subject> getStudentSubjectsTemplist(Student student) {
+        int i = 1;
+        ArrayList<Subject> tempList = new ArrayList<>();
+
+        for(Map.Entry<Subject, Integer> entry : student.getSubjectsAndGrades().entrySet()){
+            tempList.add(entry.getKey());
+
+            Subject subject = entry.getKey();
+            Integer grade = entry.getValue();
+            System.out.println(i + ") " + subject + " : " + grade + "/" + subject.getMarks());
+            i++;
+        }
+        System.out.println("-------------------");
+        return tempList;
     }
 
 

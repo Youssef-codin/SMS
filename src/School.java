@@ -6,7 +6,7 @@ public abstract class School {
     private static int id = 1000;
 
     //list of student objects ID : StudentObj
-    private static HashMap<Integer, Student> students = new HashMap<>();
+    private final static HashMap<Integer, Student> students = new HashMap<>();
 
     //getter methods
     static void getList(){

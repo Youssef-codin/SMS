@@ -8,7 +8,7 @@ public class Student extends School{
     private String name;
     private int age;
     private double GPA;
-    private HashMap<Subject, Integer> subjects = new HashMap<>();
+    private final HashMap<Subject, Integer> subjects = new HashMap<>();
 
     //Constructor Classes
     Student(String name, int age, double GPA,
@@ -22,14 +22,6 @@ public class Student extends School{
         numOfStudents++;
         addStudent(this);
     }
-    Student(String name, int age, double GPA){
-        this.name = name;
-        this.age = age;
-        this.GPA = GPA;
-        numOfStudents++;
-        addStudent(this);
-    }
-
 
     @Override
     public String toString(){
@@ -57,6 +49,7 @@ public class Student extends School{
     static int getNumOfStudents(){
         return numOfStudents;
     }
+
 
     //setter methods
     void setName(String name){

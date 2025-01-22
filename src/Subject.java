@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 public class Subject {
 
-    private String name;
-    private int marks;
-    private static ArrayList<Subject> availableSubjects = new ArrayList<>();
+    private final String name;
+    private final int marks;
+    private final static ArrayList<Subject> availableSubjects = new ArrayList<>();
 
     //Constructor Class
     Subject(String name, int marks){
