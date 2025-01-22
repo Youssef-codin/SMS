@@ -74,8 +74,11 @@ public class Student extends School{
     void addSubject(Subject subject){
         this.subjects.put(subject, 0);
     }
+    void setGrade(Subject subject, int newGrade){
+        subjects.put(subject, newGrade);
+    }
 
     void removeSubject(Subject subject){
-        this.subjects.remove(subject);
+        this.subjects.remove(subjects.remove(subject));
     }
 }

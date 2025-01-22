@@ -37,8 +37,9 @@ public abstract class print {
     //used in modifyStudent_Subjects
     public static void modifyStudent_Subjects() {
         System.out.println("-------------------");
-        System.out.println("1) Change Subjects.");
-        System.out.println("2) Change Grades. ");
+        System.out.println("1) Add Subject.");
+        System.out.println("2) Remove Subject");
+        System.out.println("3) Change Grades. ");
         System.out.println("0) Go back.");
         System.out.println("-------------------");
     }
@@ -53,5 +54,12 @@ public abstract class print {
             i++;
         }
         System.out.println("-------------------");
+    }
+    public static void studentDetails(Student student){
+        System.out.println("Name: " + student.getName());
+        System.out.println("Age: " + student.getAge());
+        System.out.println("GPA: " + student.getGPA());
+        System.out.println("Subjects: ");
+        print.student_subjects(student);
     }
 }

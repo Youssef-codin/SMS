@@ -8,9 +8,6 @@ public abstract class School {
     //list of student objects ID : StudentObj
     private static HashMap<Integer, Student> students = new HashMap<>();
 
-    //placeholder student for testing
-
-
     //getter methods
     static void getList(){
         for(Map.Entry<Integer, Student> entry : students.entrySet()){

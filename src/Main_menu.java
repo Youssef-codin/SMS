@@ -1,6 +1,12 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Scanner;
+
+/*To do
+   At modify students I need to notify the user when subject is already there or not
+   GPA calculation
+ */
 
 public class Main_menu {
 
@@ -9,8 +15,10 @@ public class Main_menu {
 
     public static void main(String[] args) throws InterruptedException {
 
+        //Used for testing till i make save methods.
         Subject subjectTest1 = new Subject("English 1", 40);
         Subject subjectTest2 = new Subject("Math 1", 60);
+        new Subject("Java OOP", 50);
         new Student("Youssef Hany Galal", 18, 3.4, new ArrayList<>(Arrays.asList(subjectTest1, subjectTest2)));
 
         boolean is_running = true;
@@ -51,11 +59,15 @@ public class Main_menu {
         double GPA = inputValidation.safeDouble("Student's GPA: ");
 
         print.titleAndSubjects();
-        String subjectChoices = inputValidation.safeString("Please pick the subjects you'd like to add: ");
-        subjectChoices = subjectChoices.trim().replace(",", ""); //123
+        String subjectChoices = inputValidation.safeString("Please pick the subjects you'd like to add separated by commas (0 to quit): ");
+        subjectChoices = subjectChoices.replace(" ", "").replace(",", ""); //123
 
-        if(subjectChoices.length() > Subject.getSubjects().size()){
-            System.out.println("Chose Too Many Subjects.");
+        if(subjectChoices.charAt(0) == '0'){
+            System.out.println("Going back!");
+            Thread.sleep(waitTime_in_ms);
+        }
+        else if(subjectChoices.length() > Subject.getSubjects().size() || !inputValidation.onlyDigits(subjectChoices)){
+            System.out.println("Enter Valid choices.");
             Thread.sleep(waitTime_in_ms);
         }
         else {
@@ -135,11 +147,7 @@ public class Main_menu {
         boolean run_studentModify = true;
         while (run_studentModify)
         {
-            System.out.println("Name: " + student.getName());
-            System.out.println("Age: " + student.getAge());
-            System.out.println("GPA: " + student.getGPA());
-            System.out.println("Subjects: ");
-            print.student_subjects(student);
+            print.studentDetails(student);
 
             String user = inputValidation.safeString("What would you like to change (q to quit): ").toLowerCase();
             switch (user)
@@ -155,8 +163,7 @@ public class Main_menu {
                 }
                 default -> {
                     System.out.println("Please enter a valid input");
-                    System.out.print("Press enter to continue...");
-                    scanner.nextLine();
+                    Thread.sleep(waitTime_in_ms);
                 }
             }
         }
@@ -208,13 +215,87 @@ public class Main_menu {
     }
 
     private static void modifyStudent_Subjects(Student student) throws InterruptedException {
-        int choice = inputValidation.safeInt("Which subject would you like to edit?: ");
-
-
+        boolean is_running = true;
+        while (is_running) {
+            print.modifyStudent_Subjects();
+            int choice = inputValidation.safeInt("What would you like to do? (0 to quit): ");
+            switch (choice) {
+                case 1 -> addStudentSubject(student);
+                case 2 -> removeStudentSubject(student);
+                case 3 -> changeStudentGrade(student);
+                case 0 -> {
+                    System.out.println("Going back!");
+                    Thread.sleep(waitTime_in_ms);
+                    is_running = false;
+                }
+                default -> {
+                    System.out.println("Please enter a valid input");
+                    Thread.sleep(waitTime_in_ms);
+                }
+            }
+        }
     }
 
     //METHODS TO MODIFY STUDENT'S SUBJECT STUFF
     //used in modifyStudent_Subjects
+    private static void addStudentSubject(Student student) throws InterruptedException {
+        print.titleAndSubjects();
+        int subjectChoice = inputValidation.safeInt("Please pick the subject you'd like to add: ");
+        if (subjectChoice != 0){
+            student.addSubject(Subject.get_subject(subjectChoice - 1));
+            System.out.println("Subject added.");
+            Thread.sleep(waitTime_in_ms);
+        }
+        else {
+            System.out.println("Going back!");
+            Thread.sleep(waitTime_in_ms);
+        }
+    }
+
+    private static void removeStudentSubject(Student student) throws InterruptedException {
+        print.titleAndSubjects();
+        int subjectChoice = inputValidation.safeInt("Please pick the subject you'd like to remove: ");
+        if (subjectChoice != 0) {
+            student.removeSubject(Subject.get_subject(subjectChoice - 1));
+            System.out.println("Subject removed.");
+            Thread.sleep(waitTime_in_ms);
+        }
+        else {
+            System.out.println("Going back!");
+            Thread.sleep(waitTime_in_ms);
+        }
+    }
+    private static void changeStudentGrade(Student student) throws InterruptedException {
+        int i = 1;
+        ArrayList<Subject> tempList = new ArrayList<>();
+
+        for(Map.Entry<Subject, Integer> entry : student.getSubjectsAndGrades().entrySet()){
+            tempList.add(entry.getKey());
+
+            Subject subject = entry.getKey();
+            Integer grade = entry.getValue();
+            System.out.println(i + ") " + subject + " : " + grade + "/" + subject.getMarks());
+            i++;
+        }
+        System.out.println("-------------------");
+
+        int subjectChoice = inputValidation.safeInt("Please pick the subject you'd like to change grade of: ");
+        if(subjectChoice > tempList.size()){
+            System.out.println("Pick a valid option.");
+            Thread.sleep(waitTime_in_ms);
+        }
+        else if (subjectChoice != 0) {
+            int newGrade = inputValidation.safeInt("Enter the new grade: ");
+            student.setGrade(tempList.get(subjectChoice - 1), newGrade);
+
+            System.out.println("New grade set.");
+            Thread.sleep(waitTime_in_ms);
+        }
+        else {
+            System.out.println("Going back!");
+            Thread.sleep(waitTime_in_ms);
+        }
+    }
 
 
     //MAIN METHOD TO MODIFY THE AVAILABLE SUBJECTS
@@ -224,7 +305,7 @@ public class Main_menu {
         boolean is_running = true;
         while (is_running) {
             print.subjectsMenu();
-            int choice = inputValidation.safeInt("Choose an option (1/2/3/0): ");
+            int choice = inputValidation.safeInt("Choose an option (1/2/0): ");
 
             switch (choice) {
                 case 1 -> addSubject();
