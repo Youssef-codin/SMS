@@ -52,14 +52,12 @@ public class Main_menu {
         System.out.println("-------------");
 
         String name = inputValidation.safeString("Student's name: ");
-
         int age = inputValidation.safeAge("Student's Age: ");
-
         double GPA = inputValidation.safeDouble("Student's GPA: ");
 
         print.titleAndSubjects();
         String subjectChoices = inputValidation.safeString("Please pick the subjects you'd like to add separated by commas (0 to quit): ");
-        subjectChoices = subjectChoices.replace(" ", "").replace(",", ""); //123
+        subjectChoices = subjectChoices.replace(" ", "").replace(",", "");
 
         if(subjectChoices.charAt(0) == '0'){
             System.out.println("Going back!");
@@ -177,6 +175,7 @@ public class Main_menu {
             System.out.println("Going back!");
             Thread.sleep(waitTime_in_ms);
         }
+
         student.setName(newName);
         System.out.println("Successfully changed name to: " + newName);
         System.out.print("Press enter to continue...");
@@ -277,6 +276,7 @@ public class Main_menu {
         ArrayList<Subject> tempList = getStudentSubjectsTemplist(student);
 
         int subjectChoice = inputValidation.safeInt("Please pick the subject you'd like to remove (0 to go back): ");
+
         if(subjectChoice > tempList.size()){
             System.out.println("Pick a valid option.");
             Thread.sleep(waitTime_in_ms);
@@ -386,6 +386,14 @@ public class Main_menu {
     private static void RemoveSubject() throws InterruptedException {
         print.titleAndSubjects();
         int choice = inputValidation.safeInt("Choose a subject to remove: ");
-        Subject.removeSubject(choice-1);
+
+        if(choice > Subject.getSubjects().size()){
+            System.out.println("Pick a valid option.");
+            Thread.sleep(waitTime_in_ms);
+        } else if (choice != 0) {
+            Subject.removeSubject(choice-1);
+            System.out.println("Subject removed");
+            Thread.sleep(waitTime_in_ms);
+        }
     }
 }
