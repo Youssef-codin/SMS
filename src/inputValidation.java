@@ -65,28 +65,28 @@ public abstract class inputValidation {
         }
     }
 
-    public static double safeDouble(String prompt) throws InterruptedException {
-        while(true){
-            try {
-                System.out.print(prompt);
-                double num = scanner.nextDouble();
-                if(num >= 0){
-                    return num;
-                }
-                else{
-                    System.out.println("Number must be positive.");
-                    Thread.sleep(Main_menu.waitTime_in_ms);
-                }
-            }
-            catch (InputMismatchException e) {
-                System.out.println("Please enter a number.");
-                Thread.sleep(Main_menu.waitTime_in_ms);
-            }
-            finally {
-                scanner.nextLine(); //clear buffer
-            }
-        }
-    }
+//    public static double safeDouble(String prompt) throws InterruptedException {
+//        while(true){
+//            try {
+//                System.out.print(prompt);
+//                double num = scanner.nextDouble();
+//                if(num >= 0){
+//                    return num;
+//                }
+//                else{
+//                    System.out.println("Number must be positive.");
+//                    Thread.sleep(Main_menu.waitTime_in_ms);
+//                }
+//            }
+//            catch (InputMismatchException e) {
+//                System.out.println("Please enter a number.");
+//                Thread.sleep(Main_menu.waitTime_in_ms);
+//            }
+//            finally {
+//                scanner.nextLine(); //clear buffer
+//            }
+//        }
+//    }
 
     public static boolean onlyDigits(String string) {
 

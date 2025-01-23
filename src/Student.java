@@ -7,15 +7,15 @@ public class Student extends School{
 
     private String name;
     private int age;
-    private double GPA;
+    private int GPA;
     private final HashMap<Subject, Integer> subjects = new HashMap<>();
 
     //Constructor Classes
-    Student(String name, int age, double GPA,
+    Student(String name, int age,
             ArrayList<Subject> subjects){
         this.name = name;
         this.age = age;
-        this.GPA = GPA;
+        this.GPA = 0;
         for(Subject subject : subjects) {
             this.subjects.put(subject, 0);
         }
@@ -38,7 +38,7 @@ public class Student extends School{
         return this.age;
     }
 
-    double getGPA(){
+    int getGPA(){
         return this.GPA;
     }
 
@@ -60,7 +60,7 @@ public class Student extends School{
         this.age = age;
     }
 
-    void setGPA(double GPA){
+    void setGPA(int GPA){
         this.GPA = GPA;
     }
 

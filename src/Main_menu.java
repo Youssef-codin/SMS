@@ -4,7 +4,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 /*To do
-   GPA calculation
+    GPA calculation
+    sum of obtained marks / max marks
  */
 
 public class Main_menu {
@@ -18,7 +19,7 @@ public class Main_menu {
         Subject subjectTest1 = new Subject("English 1", 40);
         Subject subjectTest2 = new Subject("Math 1", 60);
         new Subject("Java OOP", 50);
-        new Student("Youssef Hany Galal", 18, 3.4, new ArrayList<>(Arrays.asList(subjectTest1, subjectTest2)));
+        new Student("Youssef Hany Galal", 18, new ArrayList<>(Arrays.asList(subjectTest1, subjectTest2)));
 
         boolean is_running = true;
 
@@ -53,7 +54,6 @@ public class Main_menu {
 
         String name = inputValidation.safeString("Student's name: ");
         int age = inputValidation.safeAge("Student's Age: ");
-        double GPA = inputValidation.safeDouble("Student's GPA: ");
 
         print.titleAndSubjects();
         String subjectChoices = inputValidation.safeString("Please pick the subjects you'd like to add separated by commas (0 to quit): ");
@@ -74,7 +74,7 @@ public class Main_menu {
                 chosenSubjects.add(Subject.get_subject(Character.getNumericValue(subjectChoices.charAt(i)) - 1));
             }
 
-            new Student(name, age, GPA, chosenSubjects);
+            new Student(name, age, chosenSubjects);
             System.out.println("Student added Successfully!");
             System.out.print("Press enter to continue...");
             scanner.nextLine();
@@ -151,7 +151,6 @@ public class Main_menu {
             {
                 case "name" -> modifyStudent_Name(student);
                 case "age" -> modifyStudent_Age(student);
-                case "gpa" -> modifyStudent_GPA(student);
                 case "subjects" -> modifyStudent_Subjects(student);
                 case "q" -> {
                     System.out.println("Going back!");
@@ -192,21 +191,6 @@ public class Main_menu {
         else {
             student.setAge(newAge);
             System.out.println("Successfully changed age to: " + newAge);
-            System.out.print("Press enter to continue...");
-            scanner.nextLine();
-        }
-    }
-
-    private static void modifyStudent_GPA(Student student) throws InterruptedException {
-
-        double newGPA = inputValidation.safeDouble("Please enter the new GPA (0 to quit): ");
-        if(newGPA == 0){
-            System.out.println("Going back!");
-            Thread.sleep(waitTime_in_ms);
-        }
-        else {
-            student.setGPA(newGPA);
-            System.out.println("Successfully changed GPA to: " + newGPA);
             System.out.print("Press enter to continue...");
             scanner.nextLine();
         }
@@ -260,6 +244,7 @@ public class Main_menu {
             }
             else{
                 student.addSubject(subject);
+                calcGPA(student);
 
                 System.out.println("Subject " + subject + " has been added.");
                 Thread.sleep(waitTime_in_ms);
@@ -284,6 +269,7 @@ public class Main_menu {
         else if (subjectChoice != 0) {
             Subject subject = tempList.get(subjectChoice - 1);
             student.removeSubject(subject);
+            calcGPA(student);
 
             System.out.println("Subject " + subject + " has been removed.");
             Thread.sleep(waitTime_in_ms);
@@ -305,6 +291,7 @@ public class Main_menu {
         else if (subjectChoice != 0) {
             int newGrade = inputValidation.safeInt("Enter the new grade: ");
             student.setGrade(tempList.get(subjectChoice - 1), newGrade);
+            calcGPA(student);
 
             System.out.println("New grade set.");
             Thread.sleep(waitTime_in_ms);
@@ -332,6 +319,32 @@ public class Main_menu {
         return tempList;
     }
 
+    //GPA calculation methods
+    private static double getStudentGrades(Student student) {
+        double total = 0;
+        for(double grade : new ArrayList<>(student.getSubjectsAndGrades().values())){
+            total += grade;
+        }
+
+        return total;
+    }
+
+    private static double SumOfMaxGrades(Student student){
+        double maxGrades = 0;
+
+        for(Subject subject : student.getSubjectsAndGrades().keySet()){
+            maxGrades += subject.getMarks();
+        }
+
+        return maxGrades;
+    }
+
+    private static void calcGPA(Student student){
+        double finalGrade = getStudentGrades(student) / SumOfMaxGrades(student);
+        finalGrade *= 100;
+
+        student.setGPA((int)finalGrade);
+    }
 
     //MAIN METHOD TO MODIFY THE AVAILABLE SUBJECTS
     //used in main method.

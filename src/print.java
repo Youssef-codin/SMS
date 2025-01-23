@@ -58,7 +58,7 @@ public abstract class print {
     public static void studentDetails(Student student){
         System.out.println("Name: " + student.getName());
         System.out.println("Age: " + student.getAge());
-        System.out.println("GPA: " + student.getGPA());
+        System.out.println("Grade: " + student.getGPA() + "%");
         System.out.println("Subjects: ");
         print.student_subjects(student);
     }
