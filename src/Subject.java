@@ -26,6 +26,7 @@ public class Subject {
     public static Subject get_subject(int i){
         return availableSubjects.get(i);
     }
+
     public int getMarks(){
         return this.marks;
     }

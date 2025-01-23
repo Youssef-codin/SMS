@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Student extends School{
+public class Student {
 
     private static int numOfStudents = 0;
 
@@ -20,7 +20,7 @@ public class Student extends School{
             this.subjects.put(subject, 0);
         }
         numOfStudents++;
-        addStudent(this);
+        School.addStudent(this);
     }
 
     @Override
@@ -30,15 +30,15 @@ public class Student extends School{
     }
 
     //getter methods
-    String getName(){
+    public String getName(){
         return this.name;
     }
 
-    int getAge(){
+    public int getAge(){
         return this.age;
     }
 
-    int getGPA(){
+    public int getGPA(){
         return this.GPA;
     }
 
@@ -46,32 +46,38 @@ public class Student extends School{
         return this.subjects;
     }
 
-    static int getNumOfStudents(){
+    public static int getNumOfStudents(){
         return numOfStudents;
     }
 
 
     //setter methods
-    void setName(String name){
+    public void setName(String name){
         this.name = name;
     }
 
-    void setAge(int age){
+    public void setAge(int age){
         this.age = age;
     }
 
-    void setGPA(int GPA){
+    public void setGPA(int GPA){
         this.GPA = GPA;
     }
 
-    void addSubject(Subject subject){
+    public static void minusNumOfStudents(){
+        numOfStudents--;
+    }
+
+    public void addSubject(Subject subject){
         this.subjects.put(subject, 0);
     }
-    void setGrade(Subject subject, int newGrade){
+
+    public void removeSubject(Subject subject){
+        this.subjects.remove(subjects.remove(subject));
+    }
+
+    public void setGrade(Subject subject, int newGrade){
         subjects.put(subject, newGrade);
     }
 
-    void removeSubject(Subject subject){
-        this.subjects.remove(subjects.remove(subject));
-    }
 }

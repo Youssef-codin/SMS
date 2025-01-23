@@ -3,11 +3,6 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 
-/*To do
-    GPA calculation
-    sum of obtained marks / max marks
- */
-
 public class Main_menu {
 
     private final static Scanner scanner = new Scanner(System.in);
@@ -94,6 +89,7 @@ public class Main_menu {
             System.out.println("Student was not found.");
             Thread.sleep(waitTime_in_ms);
         }
+
         else {
             School.removeStudent(ID);
             System.out.println("Student removed Successfully");
@@ -113,6 +109,10 @@ public class Main_menu {
             System.out.println("Numbers of students: " + Student.getNumOfStudents());
             System.out.println("-------------------");
             School.getList();
+        }
+        else {
+            System.out.println("No students found.");
+            System.out.println("-------------------");
         }
         System.out.print("Press enter to continue...");
         scanner.nextLine();
@@ -247,7 +247,8 @@ public class Main_menu {
                 calcGPA(student);
 
                 System.out.println("Subject " + subject + " has been added.");
-                Thread.sleep(waitTime_in_ms);
+                System.out.print("Press enter to continue...");
+                scanner.nextLine();
             }
         }
 
@@ -272,7 +273,8 @@ public class Main_menu {
             calcGPA(student);
 
             System.out.println("Subject " + subject + " has been removed.");
-            Thread.sleep(waitTime_in_ms);
+            System.out.print("Press enter to continue...");
+            scanner.nextLine();
         }
         else {
             System.out.println("Going back!");
@@ -288,13 +290,15 @@ public class Main_menu {
             System.out.println("Pick a valid option.");
             Thread.sleep(waitTime_in_ms);
         }
+
         else if (subjectChoice != 0) {
             int newGrade = inputValidation.safeInt("Enter the new grade: ");
             student.setGrade(tempList.get(subjectChoice - 1), newGrade);
             calcGPA(student);
 
             System.out.println("New grade set.");
-            Thread.sleep(waitTime_in_ms);
+            System.out.print("Press enter to continue...");
+            scanner.nextLine();
         }
         else {
             System.out.println("Going back!");
@@ -302,7 +306,7 @@ public class Main_menu {
         }
     }
 
-    //Helper method for student Subjects
+    //Helper methods for student Subjects and GPA calculation
     private static ArrayList<Subject> getStudentSubjectsTemplist(Student student) {
         int i = 1;
         ArrayList<Subject> tempList = new ArrayList<>();
@@ -406,7 +410,8 @@ public class Main_menu {
         } else if (choice != 0) {
             Subject.removeSubject(choice-1);
             System.out.println("Subject removed");
-            Thread.sleep(waitTime_in_ms);
+            System.out.print("Press enter to continue...");
+            scanner.nextLine();
         }
     }
 }

@@ -9,24 +9,25 @@ public abstract class School {
     private final static HashMap<Integer, Student> students = new HashMap<>();
 
     //getter methods
-    static void getList(){
+    public static void getList(){
         for(Map.Entry<Integer, Student> entry : students.entrySet()){
             Integer ID = entry.getKey();
             Student student = entry.getValue();
             System.out.println(ID + " | " + student);
         }
     }
-    static Student getStudentObj(int ID){
+    public static Student getStudentObj(int ID){
         return students.get(ID);
     }
 
     //setter methods
-    static void addStudent(Student student){
+    public static void addStudent(Student student){
         students.put(id, student);
         id++;
     }
 
-    static void removeStudent(int id){
+    public static void removeStudent(int id){
         students.remove(id);
+        Student.minusNumOfStudents();
     }
 }
