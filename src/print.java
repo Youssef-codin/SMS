@@ -15,7 +15,8 @@ public abstract class print {
         System.out.println("0) Exit the program");
         System.out.println("---------------");
     }
-    //for print_subjectsMenu and removeSubject
+
+    //for print.subjectsMenu, addSubject, removeSubject, addStudentSubject
     public static void titleAndSubjects() {
         System.out.println("---------");
         System.out.println("Subjects");
@@ -44,8 +45,8 @@ public abstract class print {
         System.out.println("-------------------");
     }
 
-    //used in ModifyStudent
-    public static void student_subjects(Student student) {
+    //used in ModifyStudent, print.studentDetails and changeStudentGrade
+    public static void studentSubjectsAndGrades(Student student) {
         int i = 1;
         for(Map.Entry<Subject, Integer> entry : student.getSubjectsAndGrades().entrySet()){
             Subject subject = entry.getKey();
@@ -55,11 +56,13 @@ public abstract class print {
         }
         System.out.println("-------------------");
     }
+
+    //used in ModifyStudent
     public static void studentDetails(Student student){
         System.out.println("Name: " + student.getName());
         System.out.println("Age: " + student.getAge());
         System.out.println("Grade: " + student.getGPA() + "%");
         System.out.println("Subjects: ");
-        print.student_subjects(student);
+        print.studentSubjectsAndGrades(student);
     }
 }

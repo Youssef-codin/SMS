@@ -35,6 +35,7 @@ public class Main_menu {
                 }
             }
         }
+
         //Clean up
         scanner.close();
         inputValidation.scanner.close();
@@ -62,6 +63,7 @@ public class Main_menu {
             System.out.println("Enter Valid choices.");
             Thread.sleep(waitTime_in_ms);
         }
+
         else {
             ArrayList<Subject> chosenSubjects = new ArrayList<>();
 
@@ -105,13 +107,15 @@ public class Main_menu {
         System.out.println("View All Students");
         System.out.println("-----------------");
 
-        if(Student.getNumOfStudents() > 0) {
+        if(Student.getNumOfStudents() <= 0) {
+            System.out.println("No students found.");
+            System.out.println("-------------------");
+        }
+
+        else {
             System.out.println("Numbers of students: " + Student.getNumOfStudents());
             System.out.println("-------------------");
             School.getList();
-        }
-        else {
-            System.out.println("No students found.");
             System.out.println("-------------------");
         }
         System.out.print("Press enter to continue...");
@@ -151,7 +155,7 @@ public class Main_menu {
             {
                 case "name" -> modifyStudent_Name(student);
                 case "age" -> modifyStudent_Age(student);
-                case "subjects" -> modifyStudent_Subjects(student);
+                case "subjects", "subject", "grades", "grade" -> modifyStudent_Subjects(student);
                 case "q" -> {
                     System.out.println("Going back!");
                     Thread.sleep(waitTime_in_ms);
@@ -168,17 +172,19 @@ public class Main_menu {
     //STUDENT MODIFY METHODS TO CHANGE NAME, AGE, GPA OR SUBJECTS AND GRADES
     //used in studentModify method.
     private static void modifyStudent_Name(Student student) throws InterruptedException {
-
         String newName = inputValidation.safeString("Please enter the new name (q to quit): ");
+
         if (newName.equals("q")) {
             System.out.println("Going back!");
             Thread.sleep(waitTime_in_ms);
         }
 
-        student.setName(newName);
-        System.out.println("Successfully changed name to: " + newName);
-        System.out.print("Press enter to continue...");
-        scanner.nextLine();
+        else {
+            student.setName(newName);
+            System.out.println("Successfully changed name to: " + newName);
+            System.out.print("Press enter to continue...");
+            scanner.nextLine();
+        }
     }
 
     private static void modifyStudent_Age(Student student) throws InterruptedException {
@@ -188,6 +194,7 @@ public class Main_menu {
             System.out.println("Going back!");
             Thread.sleep(waitTime_in_ms);
         }
+
         else {
             student.setAge(newAge);
             System.out.println("Successfully changed age to: " + newAge);
@@ -200,6 +207,7 @@ public class Main_menu {
         boolean is_running = true;
         while (is_running) {
             print.modifyStudent_Subjects();
+
             int choice = inputValidation.safeInt("What would you like to do? (0 to quit): ");
             switch (choice) {
                 case 1 -> addStudentSubject(student);
@@ -228,17 +236,17 @@ public class Main_menu {
             System.out.println("Pick a valid option.");
             Thread.sleep(waitTime_in_ms);
         }
+        else if(subjectChoice == 0){
+            System.out.println("Going back!");
+            Thread.sleep(waitTime_in_ms);
 
-        else if(subjectChoice != 0){
-            ArrayList<Subject> tempList = new ArrayList<>();
+        }
 
-            for (Map.Entry<Subject, Integer> entry : student.getSubjectsAndGrades().entrySet()) {
-                tempList.add(entry.getKey());
-            }
-
+        else {
+            ArrayList<Subject> studentSubjects = getSubjects(student);
             Subject subject = Subject.get_subject(subjectChoice - 1);
 
-            if (tempList.contains(subject)) {
+            if (studentSubjects.contains(subject)) {
                 System.out.println("Student already enrolled in " + subject);
                 Thread.sleep(waitTime_in_ms);
             }
@@ -251,24 +259,26 @@ public class Main_menu {
                 scanner.nextLine();
             }
         }
-
-        else {
-            System.out.println("Going back!");
-            Thread.sleep(waitTime_in_ms);
-        }
     }
 
     private static void removeStudentSubject(Student student) throws InterruptedException {
-        ArrayList<Subject> tempList = getStudentSubjectsTemplist(student);
+        ArrayList<Subject> studentSubjects = getSubjects(student);
+        print.studentSubjectsAndGrades(student);
 
-        int subjectChoice = inputValidation.safeInt("Please pick the subject you'd like to remove (0 to go back): ");
+        int subjectChoice = inputValidation.safeInt(
+"Please pick the subject you'd like to remove (0 to go back): ");
 
-        if(subjectChoice > tempList.size()){
+        if(subjectChoice > studentSubjects.size()){
             System.out.println("Pick a valid option.");
             Thread.sleep(waitTime_in_ms);
         }
-        else if (subjectChoice != 0) {
-            Subject subject = tempList.get(subjectChoice - 1);
+        else if (subjectChoice == 0) {
+            System.out.println("Going back!");
+            Thread.sleep(waitTime_in_ms);
+        }
+
+        else {
+            Subject subject = studentSubjects.get(subjectChoice - 1);
             student.removeSubject(subject);
             calcGPA(student);
 
@@ -276,56 +286,49 @@ public class Main_menu {
             System.out.print("Press enter to continue...");
             scanner.nextLine();
         }
-        else {
-            System.out.println("Going back!");
-            Thread.sleep(waitTime_in_ms);
-        }
     }
 
     private static void changeStudentGrade(Student student) throws InterruptedException {
-        ArrayList<Subject> tempList = getStudentSubjectsTemplist(student);
+        ArrayList<Subject> studentSubjects = getSubjects(student);
+        print.studentSubjectsAndGrades(student);
 
         int subjectChoice = inputValidation.safeInt("Please pick the subject you'd like to change grade of: ");
-        if(subjectChoice > tempList.size()){
+        if(subjectChoice > studentSubjects.size()){
             System.out.println("Pick a valid option.");
             Thread.sleep(waitTime_in_ms);
         }
 
-        else if (subjectChoice != 0) {
+        else if (subjectChoice == 0) {
+            System.out.println("Going back!");
+            Thread.sleep(waitTime_in_ms);
+        }
+
+        else {
             int newGrade = inputValidation.safeInt("Enter the new grade: ");
-            student.setGrade(tempList.get(subjectChoice - 1), newGrade);
+            student.setGrade(studentSubjects.get(subjectChoice - 1), newGrade);
             calcGPA(student);
 
             System.out.println("New grade set.");
             System.out.print("Press enter to continue...");
             scanner.nextLine();
         }
-        else {
-            System.out.println("Going back!");
-            Thread.sleep(waitTime_in_ms);
-        }
     }
 
+
     //Helper methods for student Subjects and GPA calculation
-    private static ArrayList<Subject> getStudentSubjectsTemplist(Student student) {
-        int i = 1;
-        ArrayList<Subject> tempList = new ArrayList<>();
+    private static ArrayList<Subject> getSubjects(Student student) {
+        ArrayList<Subject> Subjects = new ArrayList<>();
 
         for(Map.Entry<Subject, Integer> entry : student.getSubjectsAndGrades().entrySet()){
-            tempList.add(entry.getKey());
-
-            Subject subject = entry.getKey();
-            Integer grade = entry.getValue();
-            System.out.println(i + ") " + subject + " : " + grade + "/" + subject.getMarks());
-            i++;
+            Subjects.add(entry.getKey());
         }
-        System.out.println("-------------------");
-        return tempList;
+        return Subjects;
     }
 
     //GPA calculation methods
     private static double getStudentGrades(Student student) {
         double total = 0;
+
         for(double grade : new ArrayList<>(student.getSubjectsAndGrades().values())){
             total += grade;
         }
@@ -344,9 +347,7 @@ public class Main_menu {
     }
 
     private static void calcGPA(Student student){
-        double finalGrade = getStudentGrades(student) / SumOfMaxGrades(student);
-        finalGrade *= 100;
-
+        double finalGrade = getStudentGrades(student) / SumOfMaxGrades(student) * 100;
         student.setGPA((int)finalGrade);
     }
 
@@ -388,14 +389,17 @@ public class Main_menu {
         else{
             int subjectMarks = inputValidation.safeInt("Enter the marks of the Subject (0 to quit): ");
 
-            if (subjectMarks != 0) {
+            if (subjectMarks == 0) {
+                System.out.println("Going back!");
+                Thread.sleep(waitTime_in_ms);
+            }
+
+            else {
                 new Subject(subjectName, subjectMarks);
+
                 System.out.println("Successfully added " + subjectName + " with " + subjectMarks + " marks.");
                 System.out.print("Press enter to continue...");
                 scanner.nextLine();
-            } else {
-                System.out.println("Going back!");
-                Thread.sleep(waitTime_in_ms);
             }
         }
     }
@@ -407,7 +411,12 @@ public class Main_menu {
         if(choice > Subject.getSubjects().size()){
             System.out.println("Pick a valid option.");
             Thread.sleep(waitTime_in_ms);
-        } else if (choice != 0) {
+        } else if (choice == 0) {
+            System.out.println("Going back!");
+            Thread.sleep(waitTime_in_ms);
+        }
+
+        else {
             Subject.removeSubject(choice-1);
             System.out.println("Subject removed");
             System.out.print("Press enter to continue...");
