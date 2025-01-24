@@ -8,12 +8,18 @@ public class Main_menu {
     public final static int WAIT_TIME_IN_MS = 800;
 
     public static void main(String[] args) throws InterruptedException {
-        Subject subject1 = new Subject("Math", 100);
-        Subject subject2 = new Subject("Science", 100);
-        new Subject("English", 100);
-        new Student("John", 12, new ArrayList<>(){{add(subject1); add(subject2);}});
 
-        dataHandler.saveAndLoadALL();
+//        Subject subject1 = new Subject("English", 40);
+//        Subject subject2 = new Subject("Math", 70);
+//        ArrayList<Subject> subjects = new ArrayList<>(Arrays.asList(subject1, subject2));
+//        new Student("Youssef", 18, subjects);
+//
+//        dataHandler.saveData();
+//        dataHandler.saveSubjects();
+//        dataHandler.saveSchool();
+        dataHandler.loadData();
+        dataHandler.loadSubjects();
+        dataHandler.loadSchool();
 
         boolean is_running = true;
 
@@ -162,7 +168,10 @@ public class Main_menu {
             {
                 case "name" -> modifyStudent_Name(student);
                 case "age" -> modifyStudent_Age(student);
-                case "subjects", "subject", "grades", "grade" -> modifyStudent_Subjects(student);
+                case "subjects",
+                     "subject",
+                     "grades",
+                     "grade" -> modifyStudent_Subjects(student);
                 case "q" -> {
                     System.out.println("Going back!");
                     Thread.sleep(WAIT_TIME_IN_MS);
@@ -420,7 +429,7 @@ public class Main_menu {
 
     private static void RemoveSubject() throws InterruptedException {
         print.titleAndSubjects();
-        int choice = inputValidation.safeInt("Choose a subject to remove: ");
+        int choice = inputValidation.safeInt("Choose a subject to remove (0 to go back): ");
 
         if(choice > Subject.getSubjects().size()){
             System.out.println("Pick a valid option.");

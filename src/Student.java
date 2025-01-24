@@ -10,77 +10,106 @@ public class Student {
     private int GPA;
     private final HashMap<Subject, Integer> subjects = new HashMap<>();
 
-    //Constructor Classes
-    Student(String name, int age,
-            ArrayList<Subject> subjects){
+    // Constructor Class
+    public Student(String name, int age, ArrayList<Subject> subjects) {
         this.name = name;
         this.age = age;
         this.GPA = 0;
-        for(Subject subject : subjects) {
-            this.subjects.put(subject, 0);
+        for (Subject subject : subjects) {
+            this.subjects.put(subject, 0); // Initialize with default grade of 0
         }
         numOfStudents++;
-        School.addStudent(this);
+        School.addStudent(this, true);
+    }
+    public Student(String name, int age, HashMap<Subject, Integer> subjectsAndGrades) {
+        this.name = name;
+        this.age = age;
+        this.GPA = 0;
+        this.subjects.putAll(subjectsAndGrades);
+        School.addStudent(this, false);
+    }
+
+    public static class SubjectEntry {
+        public String name;
+        public int marks;
+
+        public SubjectEntry(String name, int marks) {
+            this.name = name;
+            this.marks = marks;
+        }
+    }
+
+    public ArrayList<SubjectEntry> getSubjectEntries() {
+        ArrayList<SubjectEntry> entries = new ArrayList<>();
+        for (Subject subject : subjects.keySet()) {
+            entries.add(new SubjectEntry(subject.getName(), subjects.get(subject))); // Corrected to use the grade
+        }
+        return entries;
+    }
+
+    public void setGrade(Subject subject, int newGrade) {
+        if (subjects.containsKey(subject)) {
+            subjects.put(subject, newGrade);
+            System.out.println("Grade updated: " + subject.getName() + " = " + newGrade);
+        }
     }
 
     @Override
-    public String toString(){
-        return "name: " + this.name + " " + "Age: " + this.age + " "  + "GPA: " +
-                this.GPA;
+    public String toString() {
+        StringBuilder subjectsStr = new StringBuilder();
+        for (Subject subject : subjects.keySet()) {
+            subjectsStr.append(subject.getName()).append(", ");
+        }
+        return "name: " + this.name + " | Age: " + this.age + " | GPA: " + this.GPA + " | Subjects: " + subjectsStr;
     }
 
-    //getter methods
-    public String getName(){
+    // Getter methods
+    public String getName() {
         return this.name;
     }
 
-    public int getAge(){
+    public int getAge() {
         return this.age;
     }
 
-    public int getGPA(){
+    public int getGPA() {
         return this.GPA;
     }
 
-    HashMap<Subject, Integer> getSubjectsAndGrades(){
+    public HashMap<Subject, Integer> getSubjectsAndGrades() {
         return this.subjects;
     }
 
-    public static int getNumOfStudents(){
+    public static int getNumOfStudents() {
         return numOfStudents;
     }
 
-
-    //setter methods
-    public void setName(String name){
+    // Setter methods
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setAge(int age){
+    public void setAge(int age) {
         this.age = age;
     }
 
-    public void setGPA(int GPA){
+    public void setGPA(int GPA) {
         this.GPA = GPA;
     }
 
-    public static void minusNumOfStudents(){
+    public static void minusNumOfStudents() {
         numOfStudents--;
     }
 
-    public void addSubject(Subject subject){
+    public void addSubject(Subject subject) {
         this.subjects.put(subject, 0);
     }
 
-    public void removeSubject(Subject subject){
-        this.subjects.remove(subjects.remove(subject));
+    public void removeSubject(Subject subject) {
+        this.subjects.remove(subject);
     }
 
-    public void setGrade(Subject subject, int newGrade){
-        subjects.put(subject, newGrade);
-    }
-
-    public static void setNumOfStudents(int latestNumOfStudents){
+    public static void setNumOfStudents(int latestNumOfStudents) {
         Student.numOfStudents = latestNumOfStudents;
     }
 }

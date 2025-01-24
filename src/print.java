@@ -22,7 +22,7 @@ public abstract class print {
         System.out.println("Subjects");
         if (!Subject.getSubjects().isEmpty())
             for (int i = 1; i <= Subject.getSubjects().size(); i++)
-                System.out.println(i + ") " + Subject.getSubjects().get(i-1));
+                System.out.println(i + ") " + Subject.getSubjects().get(i-1).getSubjectName());
     }
 
     //used in ModifySubjects method.
@@ -51,7 +51,7 @@ public abstract class print {
         for(Map.Entry<Subject, Integer> entry : student.getSubjectsAndGrades().entrySet()){
             Subject subject = entry.getKey();
             Integer grade = entry.getValue();
-            System.out.println(i + ") " + subject + " : " + grade + "/" + subject.getMarks());
+            System.out.println(i + ") " + subject.getSubjectName() + " : " + grade + "/" + subject.getMarks());
             i++;
         }
         System.out.println("-------------------");

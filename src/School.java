@@ -30,10 +30,12 @@ public abstract class School {
     }
 
     //setter methods
-    public static void addStudent(Student student){
+    public static void addStudent(Student student, boolean AddID){
         students.put(ID, student);
-        int intID = Integer.parseInt(ID) + 1;
-        ID = Integer.toString(intID);
+        if(AddID) {
+            int intID = Integer.parseInt(ID) + 1;
+            ID = Integer.toString(intID);
+        }
     }
 
     public static void removeStudent(String id){
