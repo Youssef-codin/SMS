@@ -4,7 +4,7 @@ public class Subject {
 
     private final String name;
     private final int marks;
-    private final static ArrayList<Subject> availableSubjects = new ArrayList<>();
+    private static ArrayList<Subject> availableSubjects = new ArrayList<>();
 
     //Constructor Class
     Subject(String name, int marks){
@@ -32,6 +32,9 @@ public class Subject {
     }
 
     //setter method
+    public static void setAvailableSubjects(ArrayList<Subject> loaded_subjects){
+        availableSubjects = loaded_subjects;
+    }
     public static void removeSubject(int i){
         availableSubjects.remove(i);
     }

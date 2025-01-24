@@ -3,31 +3,49 @@ import java.util.Map;
 
 public abstract class School {
 
-    private static int id = 1000;
+    private static String ID = "1000";
 
     //Hashmap of student objects ID : StudentObj
-    private final static HashMap<Integer, Student> students = new HashMap<>();
+    private static HashMap<String, Student> students = new HashMap<>();
 
     //getter methods
     public static void getList(){
-        for(Map.Entry<Integer, Student> entry : students.entrySet()){
-            Integer ID = entry.getKey();
+        for(Map.Entry<String, Student> entry : students.entrySet()){
+            String ID = entry.getKey();
             Student student = entry.getValue();
             System.out.println(ID + " | " + student);
         }
     }
-    public static Student getStudentObj(int ID){
+
+    public static Student getStudentObj(String ID){
         return students.get(ID);
+    }
+
+    public static HashMap<String, Student> getStudents(){
+        return students;
+    }
+
+    public static String getID(){
+        return ID;
     }
 
     //setter methods
     public static void addStudent(Student student){
-        students.put(id, student);
-        id++;
+        students.put(ID, student);
+        int intID = Integer.parseInt(ID) + 1;
+        ID = Integer.toString(intID);
     }
 
-    public static void removeStudent(int id){
+    public static void removeStudent(String id){
         students.remove(id);
         Student.minusNumOfStudents();
+    }
+
+    public static void setStudents(HashMap<String, Student> loaded_students){
+        students = loaded_students;
+    }
+
+    public static void setID(String latestID){
+        School.ID = latestID;
     }
 }

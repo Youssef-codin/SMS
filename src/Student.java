@@ -80,4 +80,7 @@ public class Student {
         subjects.put(subject, newGrade);
     }
 
+    public static void setNumOfStudents(int latestNumOfStudents){
+        Student.numOfStudents = latestNumOfStudents;
+    }
 }

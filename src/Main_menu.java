@@ -1,20 +1,19 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Main_menu {
 
     private final static Scanner scanner = new Scanner(System.in);
-    public final static int waitTime_in_ms = 800;
+    public final static int WAIT_TIME_IN_MS = 800;
 
     public static void main(String[] args) throws InterruptedException {
+        Subject subject1 = new Subject("Math", 100);
+        Subject subject2 = new Subject("Science", 100);
+        new Subject("English", 100);
+        new Student("John", 12, new ArrayList<>(){{add(subject1); add(subject2);}});
 
-        //Used for testing till I make save methods.
-        Subject subjectTest1 = new Subject("English 1", 40);
-        Subject subjectTest2 = new Subject("Math 1", 60);
-        new Subject("Java OOP", 50);
-        new Student("Youssef Hany Galal", 18, new ArrayList<>(Arrays.asList(subjectTest1, subjectTest2)));
+        dataHandler.saveAndLoadALL();
 
         boolean is_running = true;
 
@@ -28,10 +27,13 @@ public class Main_menu {
                 case 3 -> ViewAllStudents();
                 case 4 -> SearchForStudent();
                 case 5 -> ModifySubjects();
-                case 0 -> is_running = false;
+                case 0 -> {
+                    dataHandler.saveAndLoadALL();
+                    is_running = false;
+                }
                 default -> {
                     System.out.println("Please enter a valid choice.");
-                    Thread.sleep(waitTime_in_ms);
+                    Thread.sleep(WAIT_TIME_IN_MS);
                 }
             }
         }
@@ -57,11 +59,11 @@ public class Main_menu {
 
         if(subjectChoices.charAt(0) == '0'){
             System.out.println("Going back!");
-            Thread.sleep(waitTime_in_ms);
+            Thread.sleep(WAIT_TIME_IN_MS);
         }
         else if(subjectChoices.length() > Subject.getSubjects().size() || !inputValidation.onlyDigits(subjectChoices)){
             System.out.println("Enter Valid choices.");
-            Thread.sleep(waitTime_in_ms);
+            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else {
@@ -76,6 +78,7 @@ public class Main_menu {
             System.out.print("Press enter to continue...");
             scanner.nextLine();
         }
+        dataHandler.saveAndLoadALL();
     }
 
     //METHOD TO REMOVE STUDENT FROM SCHOOL
@@ -86,23 +89,25 @@ public class Main_menu {
         System.out.println("----------------");
 
         int ID = inputValidation.safeInt("Enter ID of student: ");
+        String stringID = Integer.toString(ID);
 
-        if(School.getStudentObj(ID) == null){
+        if(School.getStudentObj(stringID) == null){
             System.out.println("Student was not found.");
-            Thread.sleep(waitTime_in_ms);
+            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else {
-            School.removeStudent(ID);
+            School.removeStudent(stringID);
             System.out.println("Student removed Successfully");
             System.out.print("Press enter to continue...");
             scanner.nextLine();
         }
+        dataHandler.saveAndLoadALL();
     }
 
     //METHOD TO SEE ALL STUDENTS IN THE SCHOOL
     //used in main method.
-    private static void ViewAllStudents(){
+    private static void ViewAllStudents() throws InterruptedException {
         System.out.println("-----------------");
         System.out.println("View All Students");
         System.out.println("-----------------");
@@ -110,6 +115,7 @@ public class Main_menu {
         if(Student.getNumOfStudents() <= 0) {
             System.out.println("No students found.");
             System.out.println("-------------------");
+            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else {
@@ -117,9 +123,9 @@ public class Main_menu {
             System.out.println("-------------------");
             School.getList();
             System.out.println("-------------------");
+            System.out.print("Press enter to continue...");
+            scanner.nextLine();
         }
-        System.out.print("Press enter to continue...");
-        scanner.nextLine();
     }
 
     //METHOD TO SEARCH FOR STUDENT AND MODIFY IF USER LIKES TO
@@ -130,13 +136,14 @@ public class Main_menu {
         System.out.println("-----------------");
 
         int ID = inputValidation.safeInt("Enter the ID of student: ");
+        String stringID = Integer.toString(ID);
 
-        if(School.getStudentObj(ID) == null){
+        if(School.getStudentObj(stringID) == null){
             System.out.println("Student was not found.");
-            Thread.sleep(waitTime_in_ms);
+            Thread.sleep(WAIT_TIME_IN_MS);
         }
         else {
-            ModifyStudent(School.getStudentObj(ID));
+            ModifyStudent(School.getStudentObj(stringID));
         }
     }
 
@@ -158,12 +165,12 @@ public class Main_menu {
                 case "subjects", "subject", "grades", "grade" -> modifyStudent_Subjects(student);
                 case "q" -> {
                     System.out.println("Going back!");
-                    Thread.sleep(waitTime_in_ms);
+                    Thread.sleep(WAIT_TIME_IN_MS);
                     run_studentModify = false;
                 }
                 default -> {
                     System.out.println("Please enter a valid input");
-                    Thread.sleep(waitTime_in_ms);
+                    Thread.sleep(WAIT_TIME_IN_MS);
                 }
             }
         }
@@ -176,7 +183,7 @@ public class Main_menu {
 
         if (newName.equals("q")) {
             System.out.println("Going back!");
-            Thread.sleep(waitTime_in_ms);
+            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else {
@@ -185,6 +192,7 @@ public class Main_menu {
             System.out.print("Press enter to continue...");
             scanner.nextLine();
         }
+        dataHandler.saveAndLoadALL();
     }
 
     private static void modifyStudent_Age(Student student) throws InterruptedException {
@@ -192,7 +200,7 @@ public class Main_menu {
 
         if (newAge == 0) {
             System.out.println("Going back!");
-            Thread.sleep(waitTime_in_ms);
+            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else {
@@ -201,6 +209,7 @@ public class Main_menu {
             System.out.print("Press enter to continue...");
             scanner.nextLine();
         }
+        dataHandler.saveAndLoadALL();
     }
 
     private static void modifyStudent_Subjects(Student student) throws InterruptedException {
@@ -215,15 +224,16 @@ public class Main_menu {
                 case 3 -> changeStudentGrade(student);
                 case 0 -> {
                     System.out.println("Going back!");
-                    Thread.sleep(waitTime_in_ms);
+                    Thread.sleep(WAIT_TIME_IN_MS);
                     is_running = false;
                 }
                 default -> {
                     System.out.println("Please enter a valid input");
-                    Thread.sleep(waitTime_in_ms);
+                    Thread.sleep(WAIT_TIME_IN_MS);
                 }
             }
         }
+        dataHandler.saveAndLoadALL();
     }
 
     //METHODS TO MODIFY STUDENT'S SUBJECT STUFF
@@ -234,12 +244,11 @@ public class Main_menu {
 
         if(subjectChoice > Subject.getSubjects().size()){
             System.out.println("Pick a valid option.");
-            Thread.sleep(waitTime_in_ms);
+            Thread.sleep(WAIT_TIME_IN_MS);
         }
         else if(subjectChoice == 0){
             System.out.println("Going back!");
-            Thread.sleep(waitTime_in_ms);
-
+            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else {
@@ -248,7 +257,7 @@ public class Main_menu {
 
             if (studentSubjects.contains(subject)) {
                 System.out.println("Student already enrolled in " + subject);
-                Thread.sleep(waitTime_in_ms);
+                Thread.sleep(WAIT_TIME_IN_MS);
             }
             else{
                 student.addSubject(subject);
@@ -259,6 +268,7 @@ public class Main_menu {
                 scanner.nextLine();
             }
         }
+        dataHandler.saveAndLoadALL();
     }
 
     private static void removeStudentSubject(Student student) throws InterruptedException {
@@ -270,11 +280,11 @@ public class Main_menu {
 
         if(subjectChoice > studentSubjects.size()){
             System.out.println("Pick a valid option.");
-            Thread.sleep(waitTime_in_ms);
+            Thread.sleep(WAIT_TIME_IN_MS);
         }
         else if (subjectChoice == 0) {
             System.out.println("Going back!");
-            Thread.sleep(waitTime_in_ms);
+            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else {
@@ -286,6 +296,7 @@ public class Main_menu {
             System.out.print("Press enter to continue...");
             scanner.nextLine();
         }
+        dataHandler.saveAndLoadALL();
     }
 
     private static void changeStudentGrade(Student student) throws InterruptedException {
@@ -295,12 +306,12 @@ public class Main_menu {
         int subjectChoice = inputValidation.safeInt("Please pick the subject you'd like to change grade of: ");
         if(subjectChoice > studentSubjects.size()){
             System.out.println("Pick a valid option.");
-            Thread.sleep(waitTime_in_ms);
+            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else if (subjectChoice == 0) {
             System.out.println("Going back!");
-            Thread.sleep(waitTime_in_ms);
+            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else {
@@ -312,6 +323,7 @@ public class Main_menu {
             System.out.print("Press enter to continue...");
             scanner.nextLine();
         }
+        dataHandler.saveAndLoadALL();
     }
 
 
@@ -365,15 +377,16 @@ public class Main_menu {
                 case 2 -> RemoveSubject();
                 case 0 -> {
                     System.out.println("Going back!");
-                    Thread.sleep(waitTime_in_ms);
+                    Thread.sleep(WAIT_TIME_IN_MS);
                     is_running = false;
                 }
                 default -> {
                     System.out.println("Please enter a valid choice.");
-                    Thread.sleep(waitTime_in_ms);
+                    Thread.sleep(WAIT_TIME_IN_MS);
                 }
             }
         }
+        dataHandler.saveAndLoadALL();
     }
 
     //SUBJECT METHODS TO ADD AND REMOVE
@@ -384,14 +397,14 @@ public class Main_menu {
 
         if(subjectName.equals("q")){
             System.out.println("Going back!");
-            Thread.sleep(waitTime_in_ms);
+            Thread.sleep(WAIT_TIME_IN_MS);
         }
         else{
             int subjectMarks = inputValidation.safeInt("Enter the marks of the Subject (0 to quit): ");
 
             if (subjectMarks == 0) {
                 System.out.println("Going back!");
-                Thread.sleep(waitTime_in_ms);
+                Thread.sleep(WAIT_TIME_IN_MS);
             }
 
             else {
@@ -402,6 +415,7 @@ public class Main_menu {
                 scanner.nextLine();
             }
         }
+        dataHandler.saveAndLoadALL();
     }
 
     private static void RemoveSubject() throws InterruptedException {
@@ -410,10 +424,10 @@ public class Main_menu {
 
         if(choice > Subject.getSubjects().size()){
             System.out.println("Pick a valid option.");
-            Thread.sleep(waitTime_in_ms);
+            Thread.sleep(WAIT_TIME_IN_MS);
         } else if (choice == 0) {
             System.out.println("Going back!");
-            Thread.sleep(waitTime_in_ms);
+            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else {
@@ -422,5 +436,6 @@ public class Main_menu {
             System.out.print("Press enter to continue...");
             scanner.nextLine();
         }
+        dataHandler.saveAndLoadALL();
     }
 }
