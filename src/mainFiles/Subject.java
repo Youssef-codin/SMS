@@ -1,3 +1,5 @@
+package mainFiles;
+
 import java.util.ArrayList;
 
 public class Subject {
@@ -7,9 +9,9 @@ public class Subject {
     private static ArrayList<Subject> availableSubjects = new ArrayList<>();
 
     //Constructor Class
-    public Subject(String name, int marks){
+    public Subject(String name, int maxMarks){
         this.name = name;
-        this.marks = marks;
+        this.marks = maxMarks;
         availableSubjects.add(this);
     }
 
@@ -18,7 +20,8 @@ public class Subject {
         return name;
     }
 
-    public static Subject getSubjectByName(String name) {
+    //used in deserializers to check if the subjects exist already or not
+    public static Subject subjectAlrExists(String name) {
         for (Subject subject : availableSubjects) {
             if (subject.getName().equals(name)) {
                 return subject;
@@ -35,8 +38,8 @@ public class Subject {
         return availableSubjects.get(i);
     }
 
-    public int getMarks(){
-        return marks;
+    public int getMaxGrade(){
+        return this.marks;
     }
 
     //setter method

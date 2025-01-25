@@ -1,3 +1,7 @@
+package mainFiles;
+
+import Data.dataHandler;
+
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
@@ -9,14 +13,6 @@ public class Main_menu {
 
     public static void main(String[] args) throws InterruptedException {
 
-//        Subject subject1 = new Subject("English", 40);
-//        Subject subject2 = new Subject("Math", 70);
-//        ArrayList<Subject> subjects = new ArrayList<>(Arrays.asList(subject1, subject2));
-//        new Student("Youssef", 18, subjects);
-//
-//        dataHandler.saveData();
-//        dataHandler.saveSubjects();
-//        dataHandler.saveSchool();
         dataHandler.loadData();
         dataHandler.loadSubjects();
         dataHandler.loadSchool();
@@ -78,8 +74,8 @@ public class Main_menu {
             for (int i = 0; i < subjectChoices.length(); i++) {
                 chosenSubjects.add(Subject.get_subject(Character.getNumericValue(subjectChoices.charAt(i)) - 1));
             }
-
             new Student(name, age, chosenSubjects);
+
             System.out.println("Student added Successfully!");
             System.out.print("Press enter to continue...");
             scanner.nextLine();
@@ -154,7 +150,7 @@ public class Main_menu {
     }
 
 
-    //METHOD TO MODIFY STUDENT'S NAME, AGE, GPA AND SUBJECTS/GRADES
+    //METHOD TO MODIFY STUDENT'S NAME, AGE AND SUBJECTS/GRADES
     //used in SearchForStudent method.
     private static void ModifyStudent(Student student) throws InterruptedException {
 
@@ -163,7 +159,7 @@ public class Main_menu {
         {
             print.studentDetails(student);
 
-            String user = inputValidation.safeString("What would you like to change (q to quit): ").toLowerCase();
+            String user = inputValidation.safeString("What would you like to change (q to quit enter name of what you want): ").toLowerCase();
             switch (user)
             {
                 case "name" -> modifyStudent_Name(student);
@@ -185,7 +181,7 @@ public class Main_menu {
         }
     }
 
-    //STUDENT MODIFY METHODS TO CHANGE NAME, AGE, GPA OR SUBJECTS AND GRADES
+    //STUDENT MODIFY METHODS TO CHANGE NAME, AGE OR SUBJECTS AND GRADES
     //used in studentModify method.
     private static void modifyStudent_Name(Student student) throws InterruptedException {
         String newName = inputValidation.safeString("Please enter the new name (q to quit): ");
@@ -270,9 +266,8 @@ public class Main_menu {
             }
             else{
                 student.addSubject(subject);
-                calcGPA(student);
 
-                System.out.println("Subject " + subject + " has been added.");
+                System.out.println("Subject " + subject.getName() + " has been added.");
                 System.out.print("Press enter to continue...");
                 scanner.nextLine();
             }
@@ -299,9 +294,8 @@ public class Main_menu {
         else {
             Subject subject = studentSubjects.get(subjectChoice - 1);
             student.removeSubject(subject);
-            calcGPA(student);
 
-            System.out.println("Subject " + subject + " has been removed.");
+            System.out.println("Subject " + subject.getName() + " has been removed.");
             System.out.print("Press enter to continue...");
             scanner.nextLine();
         }
@@ -326,7 +320,6 @@ public class Main_menu {
         else {
             int newGrade = inputValidation.safeInt("Enter the new grade: ");
             student.setGrade(studentSubjects.get(subjectChoice - 1), newGrade);
-            calcGPA(student);
 
             System.out.println("New grade set.");
             System.out.print("Press enter to continue...");
@@ -337,7 +330,7 @@ public class Main_menu {
 
 
     //Helper methods for student Subjects and GPA calculation
-    private static ArrayList<Subject> getSubjects(Student student) {
+    public static ArrayList<Subject> getSubjects(Student student) {
         ArrayList<Subject> Subjects = new ArrayList<>();
 
         for(Map.Entry<Subject, Integer> entry : student.getSubjectsAndGrades().entrySet()){
@@ -361,15 +354,15 @@ public class Main_menu {
         double maxGrades = 0;
 
         for(Subject subject : student.getSubjectsAndGrades().keySet()){
-            maxGrades += subject.getMarks();
+            maxGrades += subject.getMaxGrade();
         }
 
         return maxGrades;
     }
 
-    private static void calcGPA(Student student){
+    public static int calcGPA(Student student){
         double finalGrade = getStudentGrades(student) / SumOfMaxGrades(student) * 100;
-        student.setGPA((int)finalGrade);
+        return (int)finalGrade;
     }
 
     //MAIN METHOD TO MODIFY THE AVAILABLE SUBJECTS

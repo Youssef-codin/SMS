@@ -1,5 +1,10 @@
+package mainFiles;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static mainFiles.Main_menu.calcGPA;
+import static mainFiles.Main_menu.getSubjects;
 
 public class Student {
 
@@ -7,14 +12,12 @@ public class Student {
 
     private String name;
     private int age;
-    private int GPA;
     private final HashMap<Subject, Integer> subjects = new HashMap<>();
 
     // Constructor Class
     public Student(String name, int age, ArrayList<Subject> subjects) {
         this.name = name;
         this.age = age;
-        this.GPA = 0;
         for (Subject subject : subjects) {
             this.subjects.put(subject, 0); // Initialize with default grade of 0
         }
@@ -24,7 +27,6 @@ public class Student {
     public Student(String name, int age, HashMap<Subject, Integer> subjectsAndGrades) {
         this.name = name;
         this.age = age;
-        this.GPA = 0;
         this.subjects.putAll(subjectsAndGrades);
         School.addStudent(this, false);
     }
@@ -57,10 +59,16 @@ public class Student {
     @Override
     public String toString() {
         StringBuilder subjectsStr = new StringBuilder();
-        for (Subject subject : subjects.keySet()) {
-            subjectsStr.append(subject.getName()).append(", ");
+        ArrayList<Subject> Subjects = getSubjects(this);
+        for (int i = 0; i < this.subjects.size(); i++) {
+            if(i+1 == this.subjects.size()){
+                subjectsStr.append(Subjects.get(i).getName()).append(".");
+            }
+            else{
+                subjectsStr.append(Subjects.get(i).getName()).append(", ");
+            }
         }
-        return "name: " + this.name + " | Age: " + this.age + " | GPA: " + this.GPA + " | Subjects: " + subjectsStr;
+        return "name: " + this.name + " | Age: " + this.age + " | GPA: " + calcGPA(this) + "% | Subjects: " + subjectsStr;
     }
 
     // Getter methods
@@ -72,9 +80,6 @@ public class Student {
         return this.age;
     }
 
-    public int getGPA() {
-        return this.GPA;
-    }
 
     public HashMap<Subject, Integer> getSubjectsAndGrades() {
         return this.subjects;
@@ -93,9 +98,6 @@ public class Student {
         this.age = age;
     }
 
-    public void setGPA(int GPA) {
-        this.GPA = GPA;
-    }
 
     public static void minusNumOfStudents() {
         numOfStudents--;

@@ -1,4 +1,8 @@
+package mainFiles;
+
 import java.util.Map;
+
+import static mainFiles.Main_menu.calcGPA;
 
 public abstract class print {
     //PRINT METHODS
@@ -51,7 +55,7 @@ public abstract class print {
         for(Map.Entry<Subject, Integer> entry : student.getSubjectsAndGrades().entrySet()){
             Subject subject = entry.getKey();
             Integer grade = entry.getValue();
-            System.out.println(i + ") " + subject.getSubjectName() + " : " + grade + "/" + subject.getMarks());
+            System.out.println(i + ") " + subject.getSubjectName() + " : " + grade + "/" + subject.getMaxGrade());
             i++;
         }
         System.out.println("-------------------");
@@ -61,7 +65,7 @@ public abstract class print {
     public static void studentDetails(Student student){
         System.out.println("Name: " + student.getName());
         System.out.println("Age: " + student.getAge());
-        System.out.println("Grade: " + student.getGPA() + "%");
+        System.out.println("Grade: " + calcGPA(student) + "%");
         System.out.println("Subjects: ");
         print.studentSubjectsAndGrades(student);
     }
