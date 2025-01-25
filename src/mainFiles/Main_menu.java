@@ -365,7 +365,7 @@ public class Main_menu {
         return (int)finalGrade;
     }
 
-    
+
     //MAIN METHOD TO MODIFY THE AVAILABLE SUBJECTS
     //used in main method.
     private static void ModifySubjects() throws InterruptedException {
