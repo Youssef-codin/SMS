@@ -2,7 +2,7 @@ package mainFiles;
 
 import java.util.Map;
 
-import static mainFiles.main.calcGPA;
+import static mainFiles.Main.calcGPA;
 
 public abstract class print {
     //PRINT METHODS
