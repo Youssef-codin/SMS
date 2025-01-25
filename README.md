@@ -5,4 +5,4 @@
 # How to run?
 - Simply run main.java in the MainFiles folder.
 
-## Thank you for checking out my small project!
+##                      Thank you for checking out my small project!
