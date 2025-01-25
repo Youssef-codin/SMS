@@ -9,10 +9,12 @@ public class Subject {
     private static ArrayList<Subject> availableSubjects = new ArrayList<>();
 
     //Constructor Class
-    public Subject(String name, int maxMarks){
+    public Subject(String name, int maxMarks, boolean addAvailable){
         this.name = name;
         this.marks = maxMarks;
-        availableSubjects.add(this);
+        if(addAvailable){
+            availableSubjects.add(this);
+        }
     }
 
     //Getter methods
@@ -42,6 +44,10 @@ public class Subject {
         return this.marks;
     }
 
+    public String getSubjectName() {
+        return this.name;
+    }
+
     //setter method
     public static void setAvailableSubjects(ArrayList<Subject> loadedSubjects) {
         availableSubjects.clear();
@@ -51,7 +57,4 @@ public class Subject {
         availableSubjects.remove(i);
     }
 
-    public String getSubjectName() {
-        return this.name;
-    }
 }

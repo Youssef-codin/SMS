@@ -31,24 +31,6 @@ public class Student {
         School.addStudent(this, false);
     }
 
-    public static class SubjectEntry {
-        public String name;
-        public int marks;
-
-        public SubjectEntry(String name, int marks) {
-            this.name = name;
-            this.marks = marks;
-        }
-    }
-
-    public ArrayList<SubjectEntry> getSubjectEntries() {
-        ArrayList<SubjectEntry> entries = new ArrayList<>();
-        for (Subject subject : subjects.keySet()) {
-            entries.add(new SubjectEntry(subject.getName(), subjects.get(subject))); // Corrected to use the grade
-        }
-        return entries;
-    }
-
     public void setGrade(Subject subject, int newGrade) {
         if (subjects.containsKey(subject)) {
             subjects.put(subject, newGrade);

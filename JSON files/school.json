@@ -3,9 +3,9 @@
     "name": "Youssef Hany Galal",
     "age": 18,
     "subjects": {
-      "English": {
-        "SubjectName": "English",
-        "maxGrade": 40,
+      "Java 101": {
+        "SubjectName": "Java 101",
+        "maxGrade": 60,
         "grade": 0
       },
       "Math": {
@@ -13,9 +13,9 @@
         "maxGrade": 70,
         "grade": 0
       },
-      "Java 101": {
-        "SubjectName": "Java 101",
-        "maxGrade": 60,
+      "English": {
+        "SubjectName": "English",
+        "maxGrade": 40,
         "grade": 0
       }
     }

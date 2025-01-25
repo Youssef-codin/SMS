@@ -410,7 +410,7 @@ public class Main_menu {
             }
 
             else {
-                new Subject(subjectName, subjectMarks);
+                new Subject(subjectName, subjectMarks, true);
 
                 System.out.println("Successfully added " + subjectName + " with " + subjectMarks + " marks.");
                 System.out.print("Press enter to continue...");

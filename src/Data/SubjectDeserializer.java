@@ -20,6 +20,6 @@ public class SubjectDeserializer implements JsonDeserializer<Subject> {
             return existingSubject;
         }
         //makes a new subject if the subject doesn't exist
-        return new Subject(SubjectName, maxGrade);
+        return new Subject(SubjectName, maxGrade, false);
     }
 }
