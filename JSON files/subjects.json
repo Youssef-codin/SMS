@@ -6,5 +6,9 @@
   {
     "SubjectName": "Math",
     "maxGrade": 70
+  },
+  {
+    "SubjectName": "Java 101",
+    "maxGrade": 60
   }
 ]

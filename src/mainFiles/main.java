@@ -61,7 +61,6 @@ public class main {
 
         if(subjectChoices.charAt(0) == '0'){
             System.out.println("Going back!");
-            Thread.sleep(WAIT_TIME_IN_MS);
         }
         else if(subjectChoices.length() > Subject.getSubjects().size() || !inputValidation.onlyDigits(subjectChoices)){
             System.out.println("Enter Valid choices.");
@@ -170,7 +169,6 @@ public class main {
                      "grade" -> modifyStudent_Subjects(student);
                 case "q" -> {
                     System.out.println("Going back!");
-                    Thread.sleep(WAIT_TIME_IN_MS);
                     run_studentModify = false;
                 }
                 default -> {
@@ -188,7 +186,6 @@ public class main {
 
         if (newName.equals("q")) {
             System.out.println("Going back!");
-            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else {
@@ -205,7 +202,6 @@ public class main {
 
         if (newAge == 0) {
             System.out.println("Going back!");
-            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else {
@@ -229,7 +225,6 @@ public class main {
                 case 3 -> changeStudentGrade(student);
                 case 0 -> {
                     System.out.println("Going back!");
-                    Thread.sleep(WAIT_TIME_IN_MS);
                     is_running = false;
                 }
                 default -> {
@@ -253,7 +248,6 @@ public class main {
         }
         else if(subjectChoice == 0){
             System.out.println("Going back!");
-            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else {
@@ -261,7 +255,7 @@ public class main {
             Subject subject = Subject.get_subject(subjectChoice - 1);
 
             if (studentSubjects.contains(subject)) {
-                System.out.println("Student already enrolled in " + subject);
+                System.out.println("Student already enrolled in " + subject.getName());
                 Thread.sleep(WAIT_TIME_IN_MS);
             }
             else{
@@ -288,7 +282,6 @@ public class main {
         }
         else if (subjectChoice == 0) {
             System.out.println("Going back!");
-            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else {
@@ -314,7 +307,6 @@ public class main {
 
         else if (subjectChoice == 0) {
             System.out.println("Going back!");
-            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else {
@@ -373,14 +365,13 @@ public class main {
         boolean is_running = true;
         while (is_running) {
             print.subjectsMenu();
-            int choice = inputValidation.safeInt("Choose an option (1/2/0): ");
+            int choice = inputValidation.safeInt("Choose an option: ");
 
             switch (choice) {
                 case 1 -> addSubject();
                 case 2 -> RemoveSubject();
                 case 0 -> {
                     System.out.println("Going back!");
-                    Thread.sleep(WAIT_TIME_IN_MS);
                     is_running = false;
                 }
                 default -> {
@@ -400,14 +391,12 @@ public class main {
 
         if(subjectName.equals("q")){
             System.out.println("Going back!");
-            Thread.sleep(WAIT_TIME_IN_MS);
         }
         else{
             int subjectMarks = inputValidation.safeInt("Enter the marks of the Subject (0 to quit): ");
 
             if (subjectMarks == 0) {
                 System.out.println("Going back!");
-                Thread.sleep(WAIT_TIME_IN_MS);
             }
 
             else {
@@ -430,7 +419,6 @@ public class main {
             Thread.sleep(WAIT_TIME_IN_MS);
         } else if (choice == 0) {
             System.out.println("Going back!");
-            Thread.sleep(WAIT_TIME_IN_MS);
         }
 
         else {
