@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Main_menu {
+public class main {
 
     private final static Scanner scanner = new Scanner(System.in);
     public final static int WAIT_TIME_IN_MS = 800;

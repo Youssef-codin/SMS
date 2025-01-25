@@ -14,7 +14,7 @@ public abstract class inputValidation {
             String string = scanner.nextLine();
             if(string.isEmpty()){
                 System.out.println("Can't enter an empty string.");
-                Thread.sleep(Main_menu.WAIT_TIME_IN_MS);
+                Thread.sleep(main.WAIT_TIME_IN_MS);
                 continue;
             }
             return string;
@@ -31,12 +31,12 @@ public abstract class inputValidation {
                 }
                 else{
                     System.out.println("Number must be positive.");
-                    Thread.sleep(Main_menu.WAIT_TIME_IN_MS);
+                    Thread.sleep(main.WAIT_TIME_IN_MS);
                 }
             }
             catch (InputMismatchException e) {
                 System.out.println("Please enter a number.");
-                Thread.sleep(Main_menu.WAIT_TIME_IN_MS);
+                Thread.sleep(main.WAIT_TIME_IN_MS);
             }
             finally {
                 scanner.nextLine(); //clear buffer
@@ -54,12 +54,12 @@ public abstract class inputValidation {
                 }
                 else{
                     System.out.println("Age must be positive and not 0.");
-                    Thread.sleep(Main_menu.WAIT_TIME_IN_MS);
+                    Thread.sleep(main.WAIT_TIME_IN_MS);
                 }
             }
             catch (InputMismatchException e) {
                 System.out.println("Please enter a number.");
-                Thread.sleep(Main_menu.WAIT_TIME_IN_MS);
+                Thread.sleep(main.WAIT_TIME_IN_MS);
             }
             finally {
                 scanner.nextLine(); //clear buffer

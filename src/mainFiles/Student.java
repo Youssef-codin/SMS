@@ -3,8 +3,8 @@ package mainFiles;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static mainFiles.Main_menu.calcGPA;
-import static mainFiles.Main_menu.getSubjects;
+import static mainFiles.main.calcGPA;
+import static mainFiles.main.getSubjects;
 
 public class Student {
 
