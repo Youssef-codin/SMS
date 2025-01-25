@@ -9,9 +9,7 @@ import java.lang.reflect.Type;
 
 public class SubjectSerializer implements JsonSerializer<Subject> {
     @Override                    //Take subject
-    public JsonElement serialize(Subject subject,
-                                 Type type,
-                                 JsonSerializationContext context) {
+    public JsonElement serialize(Subject subject, Type type, JsonSerializationContext context) {
         //Make a json object
         JsonObject jsonObject = new JsonObject();
         //Get the properties of the subject then add them to the json object
